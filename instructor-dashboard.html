@@ -729,7 +729,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('brc-col')">
                                     <td><span class="course-code">BRC</span></td>
                                     <td>Apr 12–13, 2025</td>
                                     <td>Columbus State CC</td>
@@ -744,7 +744,7 @@
                                     </td>
                                     <td><span class="badge-open">Confirmed</span></td>
                                 </tr>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('arc-kir')">
                                     <td><span class="course-code">ARC</span></td>
                                     <td>Apr 19, 2025</td>
                                     <td>Lakeland CC — Kirtland</td>
@@ -759,7 +759,7 @@
                                     </td>
                                     <td><span class="badge-open">Confirmed</span></td>
                                 </tr>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('brc-day')">
                                     <td><span class="course-code">BRC</span></td>
                                     <td>May 3–4, 2025</td>
                                     <td>WSU Nutter Center — Dayton</td>
@@ -817,12 +817,13 @@
                                     <th>Dates</th>
                                     <th>Location</th>
                                     <th>City</th>
-                                    <th>Enrolled / Capacity</th>
+                                    <th>Enrolled / Cap</th>
                                     <th>Status</th>
+                                    <th>Roster</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('brc-col')">
                                     <td><span class="course-code">BRC</span></td>
                                     <td>Apr 12–13</td>
                                     <td>Columbus State CC</td>
@@ -837,8 +838,11 @@
                                         </div>
                                     </td>
                                     <td><span class="badge-open">Confirmed</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;"
+                                            onclick="event.stopPropagation();viewClassStudents('brc-col')">👥 View
+                                            Roster</button></td>
                                 </tr>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('arc-kir')">
                                     <td><span class="course-code">ARC</span></td>
                                     <td>Apr 19</td>
                                     <td>Lakeland CC</td>
@@ -853,8 +857,11 @@
                                         </div>
                                     </td>
                                     <td><span class="badge-open">Confirmed</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;"
+                                            onclick="event.stopPropagation();viewClassStudents('arc-kir')">👥 View
+                                            Roster</button></td>
                                 </tr>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('brc-day')">
                                     <td><span class="course-code">BRC</span></td>
                                     <td>May 3–4</td>
                                     <td>WSU Nutter Center</td>
@@ -869,8 +876,11 @@
                                         </div>
                                     </td>
                                     <td><span class="badge-few">Filling Up</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;"
+                                            onclick="event.stopPropagation();viewClassStudents('brc-day')">👥 View
+                                            Roster</button></td>
                                 </tr>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('brc-day2')">
                                     <td><span class="course-code">BRC</span></td>
                                     <td>May 17–18</td>
                                     <td>Sinclair College</td>
@@ -885,8 +895,11 @@
                                         </div>
                                     </td>
                                     <td><span class="badge-open">Upcoming</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;"
+                                            onclick="event.stopPropagation();viewClassStudents('brc-day2')">👥 View
+                                            Roster</button></td>
                                 </tr>
-                                <tr>
+                                <tr style="cursor:pointer;" onclick="viewClassStudents('arc-zan')">
                                     <td><span class="course-code">ARC</span></td>
                                     <td>Jun 7</td>
                                     <td>Zane State College</td>
@@ -901,6 +914,9 @@
                                         </div>
                                     </td>
                                     <td><span class="badge-open">Open</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;"
+                                            onclick="event.stopPropagation();viewClassStudents('arc-zan')">👥 View
+                                            Roster</button></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -908,109 +924,256 @@
                 </div>
             </div>
 
-            <!-- ── STUDENTS PANEL ──────────────────────────────── -->
-            <div class="dash-panel" id="panel-students">
-                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">My
-                    Students</h2>
 
-                <div class="dash-card" style="margin-bottom:1.5rem;">
-                    <div class="dash-card-header">
-                        <h3>Apr 12–13 BRC — Columbus State CC (12 enrolled)</h3>
-                    </div>
-                    <div class="dash-card-body" style="padding:0 1.5rem;">
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#e63946,#f4a261);">AJ
-                            </div>
-                            <div>
-                                <div class="student-name">Amanda Johnson</div>
-                                <div class="student-meta">Enrolled Apr 1 · eCourse: Complete</div>
-                            </div>
-                            <div class="student-status"><span class="badge-open">Ready</span></div>
-                        </div>
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#0d1b2a,#1a3050);">BK
-                            </div>
-                            <div>
-                                <div class="student-name">Brian Kim</div>
-                                <div class="student-meta">Enrolled Mar 29 · eCourse: Complete</div>
-                            </div>
-                            <div class="student-status"><span class="badge-open">Ready</span></div>
-                        </div>
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#2d6a4f,#52b788);">CL
-                            </div>
-                            <div>
-                                <div class="student-name">Carlos Lopez</div>
-                                <div class="student-meta">Enrolled Apr 2 · eCourse: In Progress</div>
-                            </div>
-                            <div class="student-status"><span class="badge-few">Pending</span></div>
-                        </div>
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#7b2d8b,#c77dff);">DS
-                            </div>
-                            <div>
-                                <div class="student-name">Diana Steele</div>
-                                <div class="student-meta">Enrolled Mar 25 · eCourse: Complete</div>
-                            </div>
-                            <div class="student-status"><span class="badge-open">Ready</span></div>
-                        </div>
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#e63946,#f4a261);">EM
-                            </div>
-                            <div>
-                                <div class="student-name">Ethan Moore</div>
-                                <div class="student-meta">Enrolled Apr 3 · eCourse: Not Started</div>
-                            </div>
-                            <div class="student-status"><span class="badge-full">Action Needed</span></div>
-                        </div>
-                        <div style="padding:.75rem 0;text-align:center;">
-                            <button class="btn btn-dark" style="font-size:.82rem;"
-                                onclick="alert('Full roster export coming in live version.')">⬇ Export Roster
-                                (CSV)</button>
-                        </div>
-                    </div>
+            <div class="dash-panel" id="panel-students">
+                <style>
+                    /* ── Student record card styles ── */
+                    .stu-filter-bar {
+                        display: flex;
+                        gap: .75rem;
+                        align-items: center;
+                        margin-bottom: 1.5rem;
+                        flex-wrap: wrap;
+                    }
+
+                    .stu-filter-bar select {
+                        padding: .45rem .85rem;
+                        border: 1px solid var(--clr-border);
+                        border-radius: var(--radius-sm);
+                        font-family: var(--ff-sub);
+                        font-size: .82rem;
+                        color: var(--clr-navy);
+                        background: var(--clr-white);
+                    }
+
+                    .stu-filter-bar .class-label {
+                        font-family: var(--ff-heading);
+                        font-size: 1.1rem;
+                        color: var(--clr-navy);
+                        margin-right: auto;
+                    }
+
+                    .stu-accordion {
+                        border: 1px solid var(--clr-border);
+                        border-radius: var(--radius-lg);
+                        overflow: hidden;
+                        margin-bottom: 1rem;
+                        background: var(--clr-white);
+                    }
+
+                    .stu-accordion-hdr {
+                        display: flex;
+                        align-items: center;
+                        gap: 1rem;
+                        padding: 1rem 1.25rem;
+                        cursor: pointer;
+                        user-select: none;
+                        border-bottom: 1px solid transparent;
+                        transition: background .15s;
+                    }
+
+                    .stu-accordion-hdr:hover {
+                        background: var(--clr-surface);
+                    }
+
+                    .stu-accordion-hdr.open {
+                        border-bottom-color: var(--clr-border);
+                        background: var(--clr-surface);
+                    }
+
+                    .stu-accordion-body {
+                        display: none;
+                        padding: 1.25rem;
+                    }
+
+                    .stu-accordion-body.open {
+                        display: block;
+                    }
+
+                    .stu-hdr-name {
+                        font-family: var(--ff-sub);
+                        font-weight: 700;
+                        font-size: .95rem;
+                        color: var(--clr-navy);
+                    }
+
+                    .stu-hdr-meta {
+                        font-size: .78rem;
+                        color: var(--clr-muted);
+                    }
+
+                    .stu-hdr-badges {
+                        display: flex;
+                        gap: .4rem;
+                        flex-wrap: wrap;
+                        margin-left: auto;
+                    }
+
+                    .stu-chevron {
+                        font-size: .75rem;
+                        color: var(--clr-muted);
+                        transition: transform .2s;
+                        flex-shrink: 0;
+                    }
+
+                    .stu-accordion-hdr.open .stu-chevron {
+                        transform: rotate(180deg);
+                    }
+
+                    /* sections inside record */
+                    .stu-section {
+                        margin-bottom: 1.5rem;
+                    }
+
+                    .stu-section-title {
+                        font-family: var(--ff-sub);
+                        font-weight: 700;
+                        font-size: .8rem;
+                        letter-spacing: .1em;
+                        text-transform: uppercase;
+                        color: var(--clr-muted);
+                        margin-bottom: .75rem;
+                        padding-bottom: .4rem;
+                        border-bottom: 1px solid var(--clr-border);
+                    }
+
+                    .stu-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+                        gap: .75rem;
+                    }
+
+                    .stu-field label {
+                        font-family: var(--ff-sub);
+                        font-size: .72rem;
+                        font-weight: 600;
+                        color: var(--clr-muted);
+                        display: block;
+                        margin-bottom: .25rem;
+                    }
+
+                    .stu-field input,
+                    .stu-field select,
+                    .stu-field textarea {
+                        width: 100%;
+                        padding: .45rem .6rem;
+                        border: 1px solid var(--clr-border);
+                        border-radius: var(--radius-sm);
+                        font-family: var(--ff-body);
+                        font-size: .85rem;
+                        color: var(--clr-navy);
+                        background: var(--clr-white);
+                    }
+
+                    .stu-field input:focus,
+                    .stu-field select:focus,
+                    .stu-field textarea:focus {
+                        outline: 2px solid var(--clr-red);
+                        border-color: var(--clr-red);
+                    }
+
+                    .stu-field textarea {
+                        resize: vertical;
+                        min-height: 80px;
+                    }
+
+                    .stu-field-wide {
+                        grid-column: 1/-1;
+                    }
+
+                    .score-grid {
+                        display: grid;
+                        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+                        gap: .75rem;
+                    }
+
+                    .score-field label {
+                        font-family: var(--ff-sub);
+                        font-size: .72rem;
+                        font-weight: 600;
+                        color: var(--clr-muted);
+                        display: block;
+                        margin-bottom: .25rem;
+                    }
+
+                    .score-field input {
+                        width: 100%;
+                        padding: .4rem .6rem;
+                        border: 1px solid var(--clr-border);
+                        border-radius: var(--radius-sm);
+                        font-size: .85rem;
+                        text-align: center;
+                        color: var(--clr-navy);
+                    }
+
+                    .exam-row {
+                        display: flex;
+                        gap: 1rem;
+                        align-items: center;
+                        flex-wrap: wrap;
+                    }
+
+                    .exam-radio {
+                        display: flex;
+                        gap: .5rem;
+                    }
+
+                    .exam-radio label {
+                        display: flex;
+                        align-items: center;
+                        gap: .3rem;
+                        font-family: var(--ff-sub);
+                        font-size: .85rem;
+                        cursor: pointer;
+                        padding: .35rem .75rem;
+                        border: 2px solid var(--clr-border);
+                        border-radius: var(--radius-sm);
+                    }
+
+                    .exam-radio input[type=radio]:checked+label[for*=pass] {
+                        border-color: #2d6a4f;
+                        background: rgba(45, 106, 79, .1);
+                        color: #2d6a4f;
+                        font-weight: 700;
+                    }
+
+                    .exam-radio input[type=radio]:checked+label[for*=fail] {
+                        border-color: var(--clr-red);
+                        background: rgba(230, 57, 70, .08);
+                        color: var(--clr-red);
+                        font-weight: 700;
+                    }
+
+                    .save-btn {
+                        margin-top: 1rem;
+                    }
+
+                    .incident-flag {
+                        color: var(--clr-red);
+                        font-weight: 700;
+                    }
+                </style>
+
+                <div class="stu-filter-bar">
+                    <span class="class-label" id="stu-class-label">All Students</span>
+                    <select id="stu-class-filter" onchange="filterStudents(this.value)" aria-label="Filter by class">
+                        <option value="all">All Classes</option>
+                        <option value="brc-col">Apr 12–13 BRC — Columbus</option>
+                        <option value="arc-kir">Apr 19 ARC — Kirtland</option>
+                        <option value="brc-day">May 3–4 BRC — Dayton</option>
+                        <option value="brc-day2">May 17–18 BRC — Dayton</option>
+                        <option value="arc-zan">Jun 7 ARC — Zanesville</option>
+                    </select>
+                    <button class="btn btn-dark" style="font-size:.8rem;"
+                        onclick="alert('Export coming in live version.')">⬇ Export CSV</button>
                 </div>
 
-                <div class="dash-card">
-                    <div class="dash-card-header">
-                        <h3>Apr 19 ARC — Lakeland CC, Kirtland (9 enrolled)</h3>
-                    </div>
-                    <div class="dash-card-body" style="padding:0 1.5rem;">
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#e63946,#7b2d8b);">FR
-                            </div>
-                            <div>
-                                <div class="student-name">Frank Reynolds</div>
-                                <div class="student-meta">Valid M-endorsement confirmed</div>
-                            </div>
-                            <div class="student-status"><span class="badge-open">Verified</span></div>
-                        </div>
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#0d1b2a,#e63946);">GN
-                            </div>
-                            <div>
-                                <div class="student-name">Grace Nguyen</div>
-                                <div class="student-meta">Valid M-endorsement confirmed</div>
-                            </div>
-                            <div class="student-status"><span class="badge-open">Verified</span></div>
-                        </div>
-                        <div class="student-row">
-                            <div class="student-avatar" style="background:linear-gradient(135deg,#f4a261,#e63946);">HP
-                            </div>
-                            <div>
-                                <div class="student-name">Henry Park</div>
-                                <div class="student-meta">License expiration check pending</div>
-                            </div>
-                            <div class="student-status"><span class="badge-few">Pending</span></div>
-                        </div>
-                        <div style="padding:.75rem 0;text-align:center;">
-                            <button class="btn btn-dark" style="font-size:.82rem;"
-                                onclick="alert('Full roster export coming in live version.')">⬇ Export Roster
-                                (CSV)</button>
-                        </div>
-                    </div>
+                <div id="stu-roster">
+                    <!-- Students rendered by JS -->
                 </div>
             </div>
+
+
 
             <!-- ── CERTIFICATIONS PANEL ────────────────────────── -->
             <div class="dash-panel" id="panel-certifications">
@@ -1371,6 +1534,147 @@
         }
         document.getElementById('logout-btn').addEventListener('click', logout);
         document.getElementById('sidebar-logout').addEventListener('click', logout);
+
+        // ── STUDENT PORTAL LOGIC ──────────────────────────────────────
+        const studentData = {
+            'brc-col': [
+                { id: 1, name: 'Amanda Johnson', age: 24, gender: 'Female', waiver: true, licenseType: 'Driver License', licenseNum: 'OH1234567', permit: false, guardian: false, homework: 95, ridingExam: 'pass', incident: '' },
+                { id: 2, name: 'Brian Kim', age: 31, gender: 'Male', waiver: true, licenseType: 'Learner Permit', licenseNum: 'OH9876543', permit: true, guardian: false, homework: 88, ridingExam: 'pass', incident: '' },
+                { id: 3, name: 'Carlos Lopez', age: 19, gender: 'Male', waiver: false, licenseType: 'Driver License', licenseNum: 'OH1122334', permit: false, guardian: false, homework: 0, ridingExam: 'pending', incident: '' },
+                { id: 11, name: 'Sarah Miller', age: 17, gender: 'Female', waiver: true, licenseType: 'Learner Permit', licenseNum: 'OH5566778', permit: true, guardian: true, homework: 92, ridingExam: 'pending', incident: '' }
+            ],
+            'arc-kir': [
+                { id: 4, name: 'Frank Reynolds', age: 55, gender: 'Male', waiver: true, licenseType: 'M-Endorsement', licenseNum: 'OH4455667', permit: false, guardian: false, homework: 100, ridingExam: 'pass', incident: '' },
+                { id: 5, name: 'Grace Nguyen', age: 28, gender: 'Female', waiver: true, licenseType: 'M-Endorsement', licenseNum: 'OH7788990', permit: false, guardian: false, homework: 98, ridingExam: 'pass', incident: '' }
+            ]
+        };
+
+        function renderStudents(classId) {
+            const container = document.getElementById('stu-roster');
+            const label = document.getElementById('stu-class-label');
+            const filter = document.getElementById('stu-class-filter');
+
+            if (classId === 'all') {
+                label.textContent = 'All Students';
+            } else {
+                const opt = filter.querySelector(`option[value="${classId}"]`);
+                label.textContent = opt ? opt.textContent : 'Class Roster';
+            }
+
+            let html = '';
+            const classesToRender = classId === 'all' ? Object.keys(studentData) : [classId];
+
+            classesToRender.forEach(cId => {
+                const students = studentData[cId] || [];
+                students.forEach(s => {
+                    html += `
+                    <div class="stu-accordion" id="stu-card-${s.id}">
+                        <div class="stu-accordion-hdr" onclick="toggleStudent(${s.id})">
+                            <div class="student-avatar" style="background:var(--clr-navy-lite)">${s.name.split(' ').map(n => n[0]).join('')}</div>
+                            <div>
+                                <div class="stu-hdr-name">${s.name}</div>
+                                <div class="stu-hdr-meta">Age: ${s.age} · ${s.gender}</div>
+                            </div>
+                            <div class="stu-hdr-badges">
+                                ${s.waiver ? '<span class="badge-open">Waiver OK</span>' : '<span class="badge-full">No Waiver</span>'}
+                                ${s.ridingExam === 'pass' ? '<span class="badge-open">Passed</span>' : (s.ridingExam === 'fail' ? '<span class="badge-full">Failed</span>' : '<span class="badge-few">Incomplete</span>')}
+                            </div>
+                            <div class="stu-chevron">▼</div>
+                        </div>
+                        <div class="stu-accordion-body" id="stu-body-${s.id}">
+                            <div class="stu-section">
+                                <div class="stu-section-title">Personal & Licensing Information</div>
+                                <div class="stu-grid">
+                                    <div class="stu-field"><label>Age</label><input type="number" value="${s.age}"></div>
+                                    <div class="stu-field"><label>Gender</label><select><option ${s.gender === 'Male' ? 'selected' : ''}>Male</option><option ${s.gender === 'Female' ? 'selected' : ''}>Female</option><option>Other</option></select></div>
+                                    <div class="stu-field"><label>License Type</label><select><option ${s.licenseType.includes('Endorsement') ? 'selected' : ''}>M-Endorsement</option><option ${s.licenseType.includes('Permit') ? 'selected' : ''}>Learner Permit</option><option ${s.licenseType.includes('Driver') ? 'selected' : ''}>Driver License</option></select></div>
+                                    <div class="stu-field"><label>License #</label><input type="text" value="${s.licenseNum}"></div>
+                                    <div class="stu-field"><label>Waiver Signed?</label><select><option ${s.waiver ? 'selected' : ''}>Yes, Online</option><option ${!s.waiver ? 'selected' : ''}>No</option></select></div>
+                                    <div class="stu-field"><label>Guardian Required?</label><select><option ${s.guardian ? 'selected' : ''}>Yes</option><option ${!s.guardian ? 'selected' : ''}>No</option></select></div>
+                                </div>
+                            </div>
+                            <div class="stu-section">
+                                <div class="stu-section-title">Course Evaluation (Score Sheet)</div>
+                                <div class="score-grid">
+                                    <div class="score-field"><label>Homework</label><input type="number" value="${s.homework}" max="100"></div>
+                                    <div class="score-field"><label>Range Ex 1</label><input type="number" value="0"></div>
+                                    <div class="score-field"><label>Range Ex 2</label><input type="number" value="0"></div>
+                                    <div class="score-field"><label>Final Exam</label><input type="number" value="0"></div>
+                                </div>
+                                <div class="exam-row" style="margin-top:1.5rem;">
+                                    <span style="font-family:var(--ff-sub);font-weight:700;font-size:.8rem;color:var(--clr-muted);">RIDING EVALUATION :</span>
+                                    <div class="exam-radio">
+                                        <input type="radio" name="exam-${s.id}" id="pass-${s.id}" ${s.ridingExam === 'pass' ? 'checked' : ''} hidden>
+                                        <label for="pass-${s.id}">PASS ✅</label>
+                                        <input type="radio" name="exam-${s.id}" id="fail-${s.id}" ${s.ridingExam === 'fail' ? 'checked' : ''} hidden>
+                                        <label for="fail-${s.id}">FAIL ❌</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stu-section">
+                                <div class="stu-section-title">Range Incidents</div>
+                                <div class="stu-field stu-field-wide">
+                                    <label>Incident Notes (If any)</label>
+                                    <textarea placeholder="Describe any drops or accidents...">${s.incident}</textarea>
+                                </div>
+                            </div>
+                            <div style="display:flex; justify-content:flex-end;">
+                                <button class="btn btn-primary save-btn" onclick="saveStudent(${s.id})">Save Record Update</button>
+                            </div>
+                        </div>
+                    </div>
+                    `;
+                });
+            });
+            container.innerHTML = html || '<p style="text-align:center;color:var(--clr-muted);padding:2rem;">No students found for this class.</p>';
+        }
+
+        function toggleStudent(id) {
+            const hdr = document.querySelector(`#stu-card-${id} .stu-accordion-hdr`);
+            const body = document.getElementById(`stu-body-${id}`);
+            const isOpen = body.classList.contains('open');
+
+            // Close others
+            document.querySelectorAll('.stu-accordion-body.open').forEach(el => {
+                if (el.id !== `stu-body-${id}`) {
+                    el.classList.remove('open');
+                    el.previousElementSibling.classList.remove('open');
+                }
+            });
+
+            hdr.classList.toggle('open', !isOpen);
+            body.classList.toggle('open', !isOpen);
+        }
+
+        function filterStudents(val) {
+            renderStudents(val);
+        }
+
+        function viewClassStudents(classId) {
+            switchPanel('students');
+            document.getElementById('stu-class-filter').value = classId;
+            renderStudents(classId);
+        }
+
+        function saveStudent(id) {
+            const btn = document.querySelector(`#stu-card-${id} .save-btn`);
+            const originalText = btn.textContent;
+            btn.textContent = '💾 Saving...';
+            btn.disabled = true;
+            setTimeout(() => {
+                btn.textContent = '✅ Saved';
+                btn.style.background = '#2d6a4f';
+                setTimeout(() => {
+                    btn.textContent = originalText;
+                    btn.style.background = '';
+                    btn.disabled = false;
+                    toggleStudent(id);
+                }, 1500);
+            }, 1000);
+        }
+
+        // Initialize with 'all'
+        renderStudents('all');
     </script>
 </body>
 
