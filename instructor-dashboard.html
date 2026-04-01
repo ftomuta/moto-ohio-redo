@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Instructor Dashboard — Motorcycle Ohio</title>
+    <meta name="description"
+        content="Motorcycle Ohio instructor dashboard — class schedule, student records, certifications, documents, and Moto Ohio University." />
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/styles.css" />
+    <style>
+        /* ── Dashboard layout ────────────────────────────────── */
+        body {
+            background: #f0f2f5;
+            padding-top: 0;
+        }
+
+        /* ── Dashboard Nav ───────────────────────────────────── */
+        .dash-nav {
+            background: var(--clr-navy);
+            height: 64px;
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 16px rgba(0, 0, 0, .25);
+        }
+
+        .dash-nav-inner {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .dash-logo {
+            display: flex;
+            flex-direction: column;
+            line-height: 1;
+        }
+
+        .dash-logo .logo-main {
+            font-family: var(--ff-heading);
+            font-size: 1.4rem;
+            color: var(--clr-white);
+        }
+
+        .dash-logo .logo-sub {
+            font-family: var(--ff-sub);
+            font-size: .55rem;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+            color: var(--clr-gold);
+        }
+
+        .dash-divider {
+            width: 1px;
+            height: 28px;
+            background: rgba(255, 255, 255, .15);
+        }
+
+        .dash-portal-label {
+            font-family: var(--ff-sub);
+            font-size: .75rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--clr-red);
+            background: rgba(230, 57, 70, .15);
+            border: 1px solid rgba(230, 57, 70, .3);
+            padding: .2rem .7rem;
+            border-radius: 999px;
+        }
+
+        .dash-nav-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-left: 1rem;
+        }
+
+        .dash-nav-links a {
+            font-family: var(--ff-sub);
+            font-size: .82rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .6);
+            transition: color .2s;
+        }
+
+        .dash-nav-links a:hover,
+        .dash-nav-links a.active {
+            color: var(--clr-white);
+        }
+
+        .dash-spacer {
+            flex: 1;
+        }
+
+        .dash-user {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+        }
+
+        .dash-user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--clr-red), var(--clr-gold));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--ff-sub);
+            font-weight: 700;
+            font-size: .85rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .dash-user-name {
+            font-family: var(--ff-sub);
+            font-size: .85rem;
+            font-weight: 600;
+            color: var(--clr-white);
+        }
+
+        .dash-logout {
+            font-family: var(--ff-sub);
+            font-size: .78rem;
+            font-weight: 600;
+            color: rgba(255, 255, 255, .45);
+            cursor: pointer;
+            background: none;
+            border: 1px solid rgba(255, 255, 255, .15);
+            border-radius: var(--radius-sm);
+            padding: .3rem .75rem;
+            transition: color .2s, border-color .2s;
+        }
+
+        .dash-logout:hover {
+            color: var(--clr-white);
+            border-color: rgba(255, 255, 255, .4);
+        }
+
+        /* ── Dashboard body ──────────────────────────────────── */
+        .dash-body {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            min-height: calc(100vh - 64px);
+        }
+
+        /* ── Sidebar ─────────────────────────────────────────── */
+        .dash-sidebar {
+            background: var(--clr-white);
+            border-right: 1px solid var(--clr-border);
+            padding: 1.5rem 0;
+            position: sticky;
+            top: 64px;
+            height: calc(100vh - 64px);
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            padding: 0 .75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-label {
+            font-family: var(--ff-sub);
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            padding: 0 .75rem;
+            margin-bottom: .5rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: .65rem;
+            padding: .6rem .75rem;
+            border-radius: var(--radius-sm);
+            font-family: var(--ff-sub);
+            font-size: .875rem;
+            font-weight: 500;
+            color: var(--clr-muted);
+            cursor: pointer;
+            transition: background .15s, color .15s;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+        }
+
+        .sidebar-link:hover {
+            background: var(--clr-surface);
+            color: var(--clr-navy);
+        }
+
+        .sidebar-link.active {
+            background: rgba(230, 57, 70, .08);
+            color: var(--clr-red);
+            font-weight: 700;
+        }
+
+        .sidebar-link .icon {
+            font-size: 1.05rem;
+            width: 20px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .sidebar-link .badge {
+            margin-left: auto;
+            background: var(--clr-red);
+            color: white;
+            font-size: .65rem;
+            font-weight: 700;
+            padding: .1rem .45rem;
+            border-radius: 999px;
+        }
+
+        /* ── Main content ────────────────────────────────────── */
+        .dash-main {
+            padding: 2rem;
+            min-width: 0;
+        }
+
+        /* Panels (tab content) */
+        .dash-panel {
+            display: none;
+        }
+
+        .dash-panel.active {
+            display: block;
+        }
+
+        /* ── Welcome banner ──────────────────────────────────── */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--clr-navy) 0%, var(--clr-navy-lite) 100%);
+            border-radius: var(--radius-lg);
+            padding: 2rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .welcome-banner h2 {
+            font-family: var(--ff-heading);
+            font-size: 1.8rem;
+            color: var(--clr-white);
+        }
+
+        .welcome-banner p {
+            color: rgba(255, 255, 255, .6);
+            font-size: .9rem;
+            margin-top: .3rem;
+        }
+
+        .welcome-date {
+            font-family: var(--ff-sub);
+            font-size: .8rem;
+            color: var(--clr-gold);
+            font-weight: 600;
+        }
+
+        /* ── Stat cards ──────────────────────────────────────── */
+        .dash-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .dash-stat {
+            background: var(--clr-white);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--clr-border);
+            padding: 1.25rem;
+        }
+
+        .dash-stat .label {
+            font-family: var(--ff-sub);
+            font-size: .75rem;
+            font-weight: 600;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            margin-bottom: .4rem;
+        }
+
+        .dash-stat .value {
+            font-family: var(--ff-heading);
+            font-size: 2rem;
+            color: var(--clr-navy);
+            line-height: 1;
+        }
+
+        .dash-stat .sub {
+            font-size: .78rem;
+            color: var(--clr-muted);
+            margin-top: .35rem;
+        }
+
+        .dash-stat .icon-bg {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            margin-bottom: .75rem;
+        }
+
+        /* ── Content cards ───────────────────────────────────── */
+        .dash-card {
+            background: var(--clr-white);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--clr-border);
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .dash-card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--clr-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dash-card-header h3 {
+            font-family: var(--ff-sub);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--clr-navy);
+        }
+
+        .dash-card-header a,
+        .dash-card-header button {
+            font-family: var(--ff-sub);
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--clr-red);
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .dash-card-body {
+            padding: 1.5rem;
+        }
+
+        /* Schedule table */
+        .sched-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .88rem;
+        }
+
+        .sched-table th {
+            text-align: left;
+            font-family: var(--ff-sub);
+            font-size: .72rem;
+            font-weight: 700;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            color: var(--clr-muted);
+            padding: .5rem .75rem;
+            border-bottom: 1px solid var(--clr-border);
+        }
+
+        .sched-table td {
+            padding: .85rem .75rem;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .sched-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .sched-table tr:hover td {
+            background: var(--clr-surface);
+        }
+
+        .course-code {
+            font-family: var(--ff-sub);
+            font-weight: 700;
+            color: var(--clr-navy);
+        }
+
+        .enrolled-bar {
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 6px;
+            background: var(--clr-border);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: var(--clr-red);
+            border-radius: 999px;
+        }
+
+        /* Student list */
+        .student-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: .85rem 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .student-row:last-child {
+            border-bottom: none;
+        }
+
+        .student-avatar {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--ff-sub);
+            font-weight: 700;
+            font-size: .82rem;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .student-name {
+            font-family: var(--ff-sub);
+            font-weight: 600;
+            font-size: .9rem;
+            color: var(--clr-navy);
+        }
+
+        .student-meta {
+            font-size: .78rem;
+            color: var(--clr-muted);
+        }
+
+        .student-status {
+            margin-left: auto;
+        }
+
+        /* Cert / doc rows */
+        .doc-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: .9rem 0;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .doc-row:last-child {
+            border-bottom: none;
+        }
+
+        .doc-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--clr-surface);
+            border-radius: var(--radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            flex-shrink: 0;
+        }
+
+        .doc-info {
+            flex: 1;
+        }
+
+        .doc-name {
+            font-family: var(--ff-sub);
+            font-weight: 600;
+            font-size: .88rem;
+            color: var(--clr-navy);
+        }
+
+        .doc-meta {
+            font-size: .76rem;
+            color: var(--clr-muted);
+            margin-top: .15rem;
+        }
+
+        .doc-actions {
+            display: flex;
+            gap: .5rem;
+        }
+
+        .doc-actions a,
+        .doc-actions button {
+            font-family: var(--ff-sub);
+            font-size: .75rem;
+            font-weight: 600;
+            padding: .3rem .65rem;
+            border-radius: var(--radius-sm);
+        }
+
+        /* University cards */
+        .uni-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .uni-card {
+            background: var(--clr-surface);
+            border: 1px solid var(--clr-border);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            transition: box-shadow .2s, transform .2s;
+        }
+
+        .uni-card:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-3px);
+        }
+
+        .uni-card-thumb {
+            height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+        }
+
+        .uni-card-body {
+            padding: 1rem;
+        }
+
+        .uni-card-body h4 {
+            font-family: var(--ff-sub);
+            font-weight: 700;
+            font-size: .9rem;
+            color: var(--clr-navy);
+            margin-bottom: .3rem;
+        }
+
+        .uni-card-body p {
+            font-size: .78rem;
+            color: var(--clr-muted);
+            line-height: 1.5;
+            margin-bottom: .75rem;
+        }
+
+        .uni-card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: .5rem;
+        }
+
+        .progress-text {
+            font-size: .72rem;
+            color: var(--clr-muted);
+        }
+
+        .progress-pct {
+            font-family: var(--ff-sub);
+            font-weight: 700;
+            font-size: .8rem;
+            color: var(--clr-red);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .dash-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dash-body {
+                grid-template-columns: 1fr;
+            }
+
+            .dash-sidebar {
+                display: none;
+            }
+
+            .dash-stats {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .dash-nav {
+                padding: 0 1rem;
+            }
+
+            .dash-nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- DASHBOARD NAV -->
+    <nav class="dash-nav" aria-label="Instructor portal navigation">
+        <div class="dash-nav-inner">
+            <a href="index.html" class="dash-logo" aria-label="Motorcycle Ohio home">
+                <span class="logo-main">MOTO OHIO</span>
+                <span class="logo-sub">Ohio Rider Training</span>
+            </a>
+            <div class="dash-divider" aria-hidden="true"></div>
+            <span class="dash-portal-label">Instructor Portal</span>
+            <nav class="dash-nav-links" aria-label="Dashboard sections">
+                <a href="#" class="active" data-panel="overview">Overview</a>
+                <a href="#" data-panel="schedule">Schedule</a>
+                <a href="#" data-panel="students">Students</a>
+                <a href="#" data-panel="certifications">Certifications</a>
+                <a href="#" data-panel="documents">Documents</a>
+                <a href="#" data-panel="university">MO University</a>
+            </nav>
+            <div class="dash-spacer"></div>
+            <div class="dash-user">
+                <div class="dash-user-avatar" id="user-avatar" aria-hidden="true">JD</div>
+                <span class="dash-user-name" id="user-name">Instructor</span>
+                <button class="dash-logout" id="logout-btn">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dash-body">
+        <!-- SIDEBAR -->
+        <aside class="dash-sidebar" aria-label="Sidebar navigation">
+            <div class="sidebar-label">Main</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link active" data-panel="overview"><span class="icon">🏠</span> Overview</button>
+                <button class="sidebar-link" data-panel="schedule"><span class="icon">📅</span> Class Schedule <span
+                        class="badge">3</span></button>
+                <button class="sidebar-link" data-panel="students"><span class="icon">👥</span> My Students</button>
+            </div>
+            <div class="sidebar-label">Credentials</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link" data-panel="certifications"><span class="icon">🏆</span>
+                    Certifications</button>
+                <button class="sidebar-link" data-panel="documents"><span class="icon">📄</span> Documents</button>
+            </div>
+            <div class="sidebar-label">Training</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link" data-panel="university"><span class="icon">🎓</span> MO University <span
+                        class="badge" style="background:var(--clr-gold);color:var(--clr-navy);">2</span></button>
+            </div>
+            <div class="sidebar-label" style="margin-top:1rem;">Account</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link" onclick="alert('Profile settings coming soon!')"><span
+                        class="icon">⚙️</span> Settings</button>
+                <button class="sidebar-link" id="sidebar-logout"><span class="icon">🚪</span> Sign Out</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dash-main" id="dash-main">
+
+            <!-- ── OVERVIEW PANEL ──────────────────────────────── -->
+            <div class="dash-panel active" id="panel-overview">
+                <div class="welcome-banner">
+                    <div>
+                        <h2>Good afternoon, <span id="welcome-name">Instructor</span>! 👋</h2>
+                        <p>Here's a summary of your upcoming schedule and activity.</p>
+                    </div>
+                    <div class="welcome-date" id="today-date"></div>
+                </div>
+
+                <!-- Stat cards -->
+                <div class="dash-stats">
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(230,57,70,.1);" aria-hidden="true">📅</div>
+                        <div class="label">Upcoming Classes</div>
+                        <div class="value">3</div>
+                        <div class="sub">Next: Apr 12 — BRC Columbus</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(13,27,42,.08);" aria-hidden="true">👥</div>
+                        <div class="label">Active Students</div>
+                        <div class="value">34</div>
+                        <div class="sub">Across 3 upcoming sessions</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(244,162,97,.15);" aria-hidden="true">🏆</div>
+                        <div class="label">Certifications</div>
+                        <div class="value">4</div>
+                        <div class="sub">BRC · ARC · 3-Wheel · Mentor</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(45,106,79,.12);" aria-hidden="true">🎓</div>
+                        <div class="label">MO University</div>
+                        <div class="value">2</div>
+                        <div class="sub">Modules due this quarter</div>
+                    </div>
+                </div>
+
+                <!-- Upcoming schedule preview -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Upcoming Classes</h3>
+                        <button onclick="switchPanel('schedule')">View all →</button>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <table class="sched-table" aria-label="Upcoming classes">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Enrolled</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>Apr 12–13, 2025</td>
+                                    <td>Columbus State CC</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:80%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">12 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="course-code">ARC</span></td>
+                                    <td>Apr 19, 2025</td>
+                                    <td>Lakeland CC — Kirtland</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:60%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">9 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>May 3–4, 2025</td>
+                                    <td>WSU Nutter Center — Dayton</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:33%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">5 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-few">Filling Up</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick links -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="dash-card-body" style="display:flex;gap:1rem;flex-wrap:wrap;">
+                        <button class="btn btn-dark" style="flex:1;min-width:160px;justify-content:center;"
+                            onclick="switchPanel('university')">🎓 Start MO University Module</button>
+                        <button class="btn btn-outline"
+                            style="flex:1;min-width:160px;justify-content:center;border-color:var(--clr-navy);color:var(--clr-navy);"
+                            onclick="switchPanel('documents')">📄 Upload a Document</button>
+                        <button class="btn btn-outline"
+                            style="flex:1;min-width:160px;justify-content:center;border-color:var(--clr-navy);color:var(--clr-navy);"
+                            onclick="switchPanel('students')">👥 View Student Roster</button>
+                        <a href="resources.html" class="btn btn-outline"
+                            style="flex:1;min-width:160px;justify-content:center;border-color:var(--clr-navy);color:var(--clr-navy);">📋
+                            Instructor Resources</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── SCHEDULE PANEL ───────────────────────────────── -->
+            <div class="dash-panel" id="panel-schedule">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">
+                    Class Schedule</h2>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Your Assigned Sessions — Spring 2025</h3>
+                        <a href="contact.html">Request a change</a>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <table class="sched-table" aria-label="Full class schedule">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Dates</th>
+                                    <th>Location</th>
+                                    <th>City</th>
+                                    <th>Enrolled / Capacity</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>Apr 12–13</td>
+                                    <td>Columbus State CC</td>
+                                    <td>Columbus</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:80%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">12 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="course-code">ARC</span></td>
+                                    <td>Apr 19</td>
+                                    <td>Lakeland CC</td>
+                                    <td>Kirtland</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:60%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">9 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>May 3–4</td>
+                                    <td>WSU Nutter Center</td>
+                                    <td>Dayton</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:33%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">5 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-few">Filling Up</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>May 17–18</td>
+                                    <td>Sinclair College</td>
+                                    <td>Dayton</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:13%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">2 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Upcoming</span></td>
+                                </tr>
+                                <tr>
+                                    <td><span class="course-code">ARC</span></td>
+                                    <td>Jun 7</td>
+                                    <td>Zane State College</td>
+                                    <td>Zanesville</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:0%"></div>
+                                            </div><span
+                                                style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">0 /
+                                                15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Open</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── STUDENTS PANEL ──────────────────────────────── -->
+            <div class="dash-panel" id="panel-students">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">My
+                    Students</h2>
+
+                <div class="dash-card" style="margin-bottom:1.5rem;">
+                    <div class="dash-card-header">
+                        <h3>Apr 12–13 BRC — Columbus State CC (12 enrolled)</h3>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#e63946,#f4a261);">AJ
+                            </div>
+                            <div>
+                                <div class="student-name">Amanda Johnson</div>
+                                <div class="student-meta">Enrolled Apr 1 · eCourse: Complete</div>
+                            </div>
+                            <div class="student-status"><span class="badge-open">Ready</span></div>
+                        </div>
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#0d1b2a,#1a3050);">BK
+                            </div>
+                            <div>
+                                <div class="student-name">Brian Kim</div>
+                                <div class="student-meta">Enrolled Mar 29 · eCourse: Complete</div>
+                            </div>
+                            <div class="student-status"><span class="badge-open">Ready</span></div>
+                        </div>
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#2d6a4f,#52b788);">CL
+                            </div>
+                            <div>
+                                <div class="student-name">Carlos Lopez</div>
+                                <div class="student-meta">Enrolled Apr 2 · eCourse: In Progress</div>
+                            </div>
+                            <div class="student-status"><span class="badge-few">Pending</span></div>
+                        </div>
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#7b2d8b,#c77dff);">DS
+                            </div>
+                            <div>
+                                <div class="student-name">Diana Steele</div>
+                                <div class="student-meta">Enrolled Mar 25 · eCourse: Complete</div>
+                            </div>
+                            <div class="student-status"><span class="badge-open">Ready</span></div>
+                        </div>
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#e63946,#f4a261);">EM
+                            </div>
+                            <div>
+                                <div class="student-name">Ethan Moore</div>
+                                <div class="student-meta">Enrolled Apr 3 · eCourse: Not Started</div>
+                            </div>
+                            <div class="student-status"><span class="badge-full">Action Needed</span></div>
+                        </div>
+                        <div style="padding:.75rem 0;text-align:center;">
+                            <button class="btn btn-dark" style="font-size:.82rem;"
+                                onclick="alert('Full roster export coming in live version.')">⬇ Export Roster
+                                (CSV)</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Apr 19 ARC — Lakeland CC, Kirtland (9 enrolled)</h3>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#e63946,#7b2d8b);">FR
+                            </div>
+                            <div>
+                                <div class="student-name">Frank Reynolds</div>
+                                <div class="student-meta">Valid M-endorsement confirmed</div>
+                            </div>
+                            <div class="student-status"><span class="badge-open">Verified</span></div>
+                        </div>
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#0d1b2a,#e63946);">GN
+                            </div>
+                            <div>
+                                <div class="student-name">Grace Nguyen</div>
+                                <div class="student-meta">Valid M-endorsement confirmed</div>
+                            </div>
+                            <div class="student-status"><span class="badge-open">Verified</span></div>
+                        </div>
+                        <div class="student-row">
+                            <div class="student-avatar" style="background:linear-gradient(135deg,#f4a261,#e63946);">HP
+                            </div>
+                            <div>
+                                <div class="student-name">Henry Park</div>
+                                <div class="student-meta">License expiration check pending</div>
+                            </div>
+                            <div class="student-status"><span class="badge-few">Pending</span></div>
+                        </div>
+                        <div style="padding:.75rem 0;text-align:center;">
+                            <button class="btn btn-dark" style="font-size:.82rem;"
+                                onclick="alert('Full roster export coming in live version.')">⬇ Export Roster
+                                (CSV)</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── CERTIFICATIONS PANEL ────────────────────────── -->
+            <div class="dash-panel" id="panel-certifications">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">My
+                    Certifications</h2>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Active Certifications</h3><a href="contact.html">Request new cert</a>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <div class="doc-row">
+                            <div class="doc-icon">🏆</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Basic RiderCourse (BRC) — Instructor</div>
+                                <div class="doc-meta">Issued: Mar 15, 2022 · Expires: Mar 15, 2026 · ODPS Cert
+                                    #OH-BRC-04821</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Active</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Certificate download available in live version.')">⬇ PDF</a>
+                            </div>
+                        </div>
+                        <div class="doc-row">
+                            <div class="doc-icon">⚡</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Advanced RiderCourse (ARC) — Instructor</div>
+                                <div class="doc-meta">Issued: Jun 10, 2023 · Expires: Jun 10, 2027 · ODPS Cert
+                                    #OH-ARC-01134</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Active</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Certificate download available in live version.')">⬇ PDF</a>
+                            </div>
+                        </div>
+                        <div class="doc-row">
+                            <div class="doc-icon">🛺</div>
+                            <div class="doc-info">
+                                <div class="doc-name">3-Wheel BRC — Instructor</div>
+                                <div class="doc-meta">Issued: Sep 5, 2023 · Expires: Sep 5, 2027 · ODPS Cert
+                                    #OH-3W-00298</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Active</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Certificate download available in live version.')">⬇ PDF</a>
+                            </div>
+                        </div>
+                        <div class="doc-row">
+                            <div class="doc-icon">🌟</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Mentor Instructor Designation</div>
+                                <div class="doc-meta">Issued: Jan 20, 2024 · No expiration · ODPS Cert #OH-MENTOR-00077
+                                </div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Active</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Certificate download available in live version.')">⬇ PDF</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Upcoming Renewals</h3>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <div class="doc-row">
+                            <div class="doc-icon">⚠️</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Annual Recertification Update — 2025</div>
+                                <div class="doc-meta">Due: Dec 31, 2025 · Spring update clinic required · Contact your
+                                    Regional Coordinator</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-few">Due Soon</span>
+                                <a href="contact.html" class="btn btn-primary">Schedule</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── DOCUMENTS PANEL ─────────────────────────────── -->
+            <div class="dash-panel" id="panel-documents">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">
+                    Documents</h2>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>My Uploaded Documents</h3>
+                        <button onclick="alert('File upload available in live version with backend integration.')">⬆
+                            Upload New</button>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <div class="doc-row">
+                            <div class="doc-icon">📄</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Course Completion Roster — Apr 5-6, 2025 BRC</div>
+                                <div class="doc-meta">Uploaded: Apr 7, 2025 · PDF · 148 KB · Status: Received</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Received</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Download available in live version.')">⬇</a>
+                            </div>
+                        </div>
+                        <div class="doc-row">
+                            <div class="doc-icon">💵</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Pay Voucher — March 2025</div>
+                                <div class="doc-meta">Uploaded: Apr 1, 2025 · PDF · 92 KB · Status: Processing</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-few">Processing</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Download available in live version.')">⬇</a>
+                            </div>
+                        </div>
+                        <div class="doc-row">
+                            <div class="doc-icon">📋</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Range Site Inspection — Columbus State CC</div>
+                                <div class="doc-meta">Uploaded: Mar 28, 2025 · PDF · 64 KB · Status: Approved</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Approved</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Download available in live version.')">⬇</a>
+                            </div>
+                        </div>
+                        <div class="doc-row">
+                            <div class="doc-icon">🔄</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Annual Recertification Form — 2024</div>
+                                <div class="doc-meta">Uploaded: Dec 12, 2024 · PDF · 118 KB · Status: Approved</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Approved</span>
+                                <a href="#" class="btn btn-dark"
+                                    onclick="alert('Download available in live version.')">⬇</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Required Documents — Checklist</h3>
+                    </div>
+                    <div class="dash-card-body">
+                        <ul style="display:flex;flex-direction:column;gap:.75rem;font-size:.9rem;">
+                            <li style="display:flex;gap:.75rem;color:var(--clr-text);">✅ <span>Instructor Candidate
+                                    Application <span style="color:var(--clr-muted);">(on file)</span></span></li>
+                            <li style="display:flex;gap:.75rem;color:var(--clr-text);">✅ <span>Copy of valid motorcycle
+                                    endorsement <span style="color:var(--clr-muted);">(on file — expires
+                                        2028)</span></span></li>
+                            <li style="display:flex;gap:.75rem;color:var(--clr-text);">✅ <span>IPC Completion
+                                    Certificate <span style="color:var(--clr-muted);">(on file)</span></span></li>
+                            <li style="display:flex;gap:.75rem;color:var(--clr-text);">⬜ <span>Annual Recertification —
+                                    2025 <span style="color:var(--clr-red);font-weight:600;">Due Dec 31,
+                                        2025</span></span></li>
+                        </ul>
+                        <div style="margin-top:1.5rem;">
+                            <a href="resources.html" class="btn btn-dark">View All Required Forms →</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── UNIVERSITY PANEL ────────────────────────────── -->
+            <div class="dash-panel" id="panel-university">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:.5rem;">Moto
+                    Ohio University</h2>
+                <p style="color:var(--clr-muted);margin-bottom:2rem;">Online training modules required for
+                    certification, recertification, and professional development.</p>
+
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;">
+                    <div class="dash-stat" style="border-left:3px solid var(--clr-red);">
+                        <div class="label">Modules Completed</div>
+                        <div class="value">11</div>
+                    </div>
+                    <div class="dash-stat" style="border-left:3px solid var(--clr-gold);">
+                        <div class="label">In Progress</div>
+                        <div class="value">1</div>
+                    </div>
+                    <div class="dash-stat" style="border-left:3px solid var(--clr-navy);">
+                        <div class="label">Required This Quarter</div>
+                        <div class="value">2</div>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Required Modules — Q2 2025</h3>
+                    </div>
+                    <div class="dash-card-body">
+                        <div class="uni-grid">
+                            <div class="uni-card">
+                                <div class="uni-card-thumb"
+                                    style="background:linear-gradient(135deg,rgba(230,57,70,.15),rgba(230,57,70,.05));">
+                                    ⚠️</div>
+                                <div class="uni-card-body">
+                                    <h4>2025 MSF Curriculum Updates</h4>
+                                    <p>Review changes to BRC exercises 8 & 13 and updated SIPDE coaching language.</p>
+                                    <div class="uni-card-footer">
+                                        <span class="progress-text">0% complete</span>
+                                        <button class="btn btn-primary" style="font-size:.78rem;padding:.35rem .85rem;"
+                                            onclick="alert('Module launches in the live LMS platform.')">Start
+                                            →</button>
+                                    </div>
+                                    <div class="bar-track" style="margin-top:.75rem;">
+                                        <div class="bar-fill" style="width:0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uni-card">
+                                <div class="uni-card-thumb"
+                                    style="background:linear-gradient(135deg,rgba(244,162,97,.15),rgba(244,162,97,.05));">
+                                    🧑‍⚖️</div>
+                                <div class="uni-card-body">
+                                    <h4>ODPS Incident Reporting Procedures</h4>
+                                    <p>Updated procedures for documenting on-range incidents and required notifications.
+                                    </p>
+                                    <div class="uni-card-footer">
+                                        <span class="progress-text">35% complete</span>
+                                        <button class="btn btn-primary" style="font-size:.78rem;padding:.35rem .85rem;"
+                                            onclick="alert('Module launches in the live LMS platform.')">Continue
+                                            →</button>
+                                    </div>
+                                    <div class="bar-track" style="margin-top:.75rem;">
+                                        <div class="bar-fill" style="width:35%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>All Available Courses</h3>
+                    </div>
+                    <div class="dash-card-body">
+                        <div class="uni-grid">
+                            <div class="uni-card">
+                                <div class="uni-card-thumb"
+                                    style="background:linear-gradient(135deg,rgba(13,27,42,.1),rgba(13,27,42,.04));">🏍️
+                                </div>
+                                <div class="uni-card-body">
+                                    <h4>Adult Learning Principles for Riding Coaches</h4>
+                                    <p>Foundations of effective adult motorcycle instruction.</p>
+                                    <div class="uni-card-footer">
+                                        <span class="progress-text">Completed</span>
+                                        <span class="progress-pct">✅ 100%</span>
+                                    </div>
+                                    <div class="bar-track" style="margin-top:.75rem;">
+                                        <div class="bar-fill" style="width:100%;background:var(--clr-gold);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uni-card">
+                                <div class="uni-card-thumb"
+                                    style="background:linear-gradient(135deg,rgba(45,106,79,.1),rgba(45,106,79,.04));">
+                                    🩺</div>
+                                <div class="uni-card-body">
+                                    <h4>First Aid & CPR Refresher</h4>
+                                    <p>Annual refresher. Required for all range instructors.</p>
+                                    <div class="uni-card-footer">
+                                        <span class="progress-text">Completed</span>
+                                        <span class="progress-pct">✅ 100%</span>
+                                    </div>
+                                    <div class="bar-track" style="margin-top:.75rem;">
+                                        <div class="bar-fill" style="width:100%;background:var(--clr-gold);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uni-card">
+                                <div class="uni-card-thumb"
+                                    style="background:linear-gradient(135deg,rgba(123,45,139,.1),rgba(123,45,139,.04));">
+                                    🌐</div>
+                                <div class="uni-card-body">
+                                    <h4>Diversity & Inclusion in Rider Education</h4>
+                                    <p>Creating welcoming learning environments for all Ohio riders.</p>
+                                    <div class="uni-card-footer">
+                                        <span class="progress-text">Not started</span>
+                                        <button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;"
+                                            onclick="alert('Module launches in the live LMS platform.')">Start</button>
+                                    </div>
+                                    <div class="bar-track" style="margin-top:.75rem;">
+                                        <div class="bar-fill" style="width:0%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="uni-card">
+                                <div class="uni-card-thumb"
+                                    style="background:linear-gradient(135deg,rgba(230,57,70,.1),rgba(244,162,97,.05));">
+                                    🛺</div>
+                                <div class="uni-card-body">
+                                    <h4>3-Wheel Vehicle Dynamics</h4>
+                                    <p>Physics and handling differences for trike & Can-Am instruction.</p>
+                                    <div class="uni-card-footer">
+                                        <span class="progress-text">Completed</span>
+                                        <span class="progress-pct">✅ 100%</span>
+                                    </div>
+                                    <div class="bar-track" style="margin-top:.75rem;">
+                                        <div class="bar-fill" style="width:100%;background:var(--clr-gold);"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // ── Auth check ────────────────────────────────────────────────
+        const userData = JSON.parse(sessionStorage.getItem('moto_instructor') || 'null');
+        if (!userData) {
+            window.location.href = 'instructor-login.html';
+        } else {
+            // Populate name
+            const firstName = userData.name.split(' ')[0];
+            document.getElementById('welcome-name').textContent = firstName;
+            document.getElementById('user-name').textContent = userData.name;
+            const initials = userData.name.split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
+            document.getElementById('user-avatar').textContent = initials;
+        }
+
+        // Today's date
+        const today = new Date();
+        document.getElementById('today-date').textContent = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+
+        // ── Panel switching ───────────────────────────────────────────
+        function switchPanel(name) {
+            document.querySelectorAll('.dash-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById('panel-' + name).classList.add('active');
+
+            document.querySelectorAll('[data-panel]').forEach(el => {
+                el.classList.toggle('active', el.dataset.panel === name);
+            });
+        }
+
+        document.querySelectorAll('[data-panel]').forEach(el => {
+            el.addEventListener('click', e => {
+                e.preventDefault();
+                switchPanel(el.dataset.panel);
+            });
+        });
+
+        // ── Logout ────────────────────────────────────────────────────
+        function logout() {
+            sessionStorage.removeItem('moto_instructor');
+            window.location.href = 'instructor-login.html';
+        }
+        document.getElementById('logout-btn').addEventListener('click', logout);
+        document.getElementById('sidebar-logout').addEventListener('click', logout);
+    </script>
+</body>
+
+</html>
