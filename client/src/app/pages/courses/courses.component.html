@@ -1,0 +1,126 @@
+  <!-- PAGE HERO -->
+  <header class="page-hero">
+      <div class="container">
+          <nav class="breadcrumb" aria-label="Breadcrumb">
+              <a routerLink="/">Home</a>
+              <span aria-hidden="true">›</span>
+              <span>Courses</span>
+          </nav>
+          <h1>Courses &amp; Schedules</h1>
+          <p>Find the right course for your skill level, then find a date and location near you.</p>
+      </div>
+  </header>
+
+  <!-- COURSE CARDS -->
+  <section class="courses-section" aria-labelledby="courses-list-heading">
+      <div class="container">
+          <div style="margin-bottom:2.5rem;">
+              <p class="section-eyebrow">What we offer</p>
+              <h2 class="section-title" id="courses-list-heading">All Courses</h2>
+          </div>
+          <div class="course-cards">
+              @for (course of courses; track course.code) {
+                  <article class="course-card">
+                      <div class="course-card-img" aria-hidden="true" [ngStyle]="{'font-size': course.code === 'BRC' ? '' : '3.5rem'}">{{course.icon}}</div>
+                      <div class="course-card-body">
+                          <span class="tag {{course.tag_color}}">{{course.level}}</span>
+                          <h3>{{course.title}}</h3>
+                          <p>{{course.description}}</p>
+                          <div class="course-card-meta">
+                              <span>⏱ {{course.duration}}</span>
+                              <span>📋 {{course.requirements}}</span>
+                          </div>
+                      </div>
+                      <div class="course-card-footer">
+                          <span class="price">{{course.price_range}}</span>
+                          <a routerLink="/contact" class="btn btn-primary">Enroll</a>
+                      </div>
+                  </article>
+              }
+          </div>
+      </div>
+  </section>
+
+  <!-- SCHEDULE TABLE -->
+  <section class="schedule-section" aria-labelledby="schedule-heading">
+      <div class="container">
+          <div style="margin-bottom:2.5rem;">
+              <p class="section-eyebrow">Plan Ahead</p>
+              <h2 class="section-title" id="schedule-heading">Upcoming Sessions</h2>
+              <p class="section-desc">The dates below are sample listings. Registration links will open 90 days in
+                  advance.</p>
+          </div>
+          <div style="overflow-x:auto;">
+              <table class="schedule-table" aria-label="Upcoming course sessions">
+                  <thead>
+                      <tr>
+                          <th>Course</th>
+                          <th>Dates</th>
+                          <th>Location</th>
+                          <th>City</th>
+                          <th>Availability</th>
+                          <th>Action</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td><strong>BRC</strong></td>
+                          <td>Apr 12–13</td>
+                          <td>Columbus State CC</td>
+                          <td>Columbus</td>
+                          <td><span class="badge-open">Open</span></td>
+                          <td><a routerLink="/contact" class="btn btn-primary"
+                                  style="padding:.4rem 1rem;font-size:.8rem;">Register</a></td>
+                      </tr>
+                      <tr>
+                          <td><strong>ARC</strong></td>
+                          <td>Apr 19</td>
+                          <td>Lakeland CC</td>
+                          <td>Kirtland</td>
+                          <td><span class="badge-open">Open</span></td>
+                          <td><a routerLink="/contact" class="btn btn-primary"
+                                  style="padding:.4rem 1rem;font-size:.8rem;">Register</a></td>
+                      </tr>
+                      <tr>
+                          <td><strong>BRC</strong></td>
+                          <td>Apr 26–27</td>
+                          <td>WSU Nutter Center</td>
+                          <td>Dayton</td>
+                          <td><span class="badge-few">2 Left</span></td>
+                          <td><a routerLink="/contact" class="btn btn-primary"
+                                  style="padding:.4rem 1rem;font-size:.8rem;">Register</a></td>
+                      </tr>
+                      <tr>
+                          <td><strong>3-Wheel BRC</strong></td>
+                          <td>May 3–4</td>
+                          <td>Toledo Speedway</td>
+                          <td>Toledo</td>
+                          <td><span class="badge-open">Open</span></td>
+                          <td><a routerLink="/contact" class="btn btn-primary"
+                                  style="padding:.4rem 1rem;font-size:.8rem;">Register</a></td>
+                      </tr>
+                      <tr>
+                          <td><strong>BRC</strong></td>
+                          <td>May 10–11</td>
+                          <td>UC Clermont</td>
+                          <td>Batavia</td>
+                          <td><span class="badge-full">Full</span></td>
+                          <td><a routerLink="/contact" class="btn btn-dark"
+                                  style="padding:.4rem 1rem;font-size:.8rem;">Waitlist</a></td>
+                      </tr>
+                      <tr>
+                          <td><strong>ARC</strong></td>
+                          <td>May 17</td>
+                          <td>Zane State College</td>
+                          <td>Zanesville</td>
+                          <td><span class="badge-open">Open</span></td>
+                          <td><a routerLink="/contact" class="btn btn-primary"
+                                  style="padding:.4rem 1rem;font-size:.8rem;">Register</a></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          <p style="margin-top:1.25rem;font-size:.85rem;color:var(--clr-muted);">Schedules updated weekly. Contact us
+              for group bookings or to request a site not listed above.</p>
+      </div>
+  </section>

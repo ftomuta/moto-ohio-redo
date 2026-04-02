@@ -1,0 +1,50 @@
+    <div class="login-page">
+      <div class="login-card">
+          <!-- Logo -->
+          <div class="login-logo">
+              <a routerLink="/" aria-label="Motorcycle Ohio home">
+                  <div class="logo-main">MOTO OHIO</div>
+                  <div class="logo-sub">Ohio Rider Training</div>
+              </a>
+              <div class="portal-badge">🔐 Instructor Portal</div>
+          </div>
+
+          <div class="login-divider"></div>
+
+          <h1 class="login-title">Welcome back</h1>
+          <p class="login-subtitle">Sign in to access your instructor dashboard, class schedule, and Moto Ohio
+              University.</p>
+
+          <!-- Error message -->
+          <div class="login-error" [class.visible]="errorMsg" role="alert" aria-live="polite">
+              {{ errorMsg }}
+          </div>
+
+          <form (ngSubmit)="onSubmit()" novalidate>
+              <div class="form-group">
+                  <label for="email">Email Address</label>
+                  <input type="email" id="email" name="email" [(ngModel)]="email" required autocomplete="email"
+                      placeholder="instructor@example.com" />
+              </div>
+              <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" name="password" [(ngModel)]="password" required autocomplete="current-password"
+                      placeholder="••••••••" />
+              </div>
+              <div class="login-options">
+                  <label>
+                      <input type="checkbox" id="remember" name="remember" [(ngModel)]="remember" />
+                      Remember me
+                  </label>
+                  <a href="#" (click)="forgotPassword($event)">Forgot password?</a>
+              </div>
+              <button type="submit" class="btn btn-primary login-btn" [disabled]="isSubmitting">{{ isSubmitting ? 'Signing in…' : 'Sign In →' }}</button>
+          </form>
+
+          <p class="login-footer">
+              Not yet an instructor? <a routerLink="/become-instructor">Learn how to get certified →</a><br>
+              <br>
+              Having trouble signing in? <a routerLink="/contact">Contact support</a>
+          </p>
+      </div>
+  </div>

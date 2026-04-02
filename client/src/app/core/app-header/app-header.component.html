@@ -1,0 +1,35 @@
+  <nav class="site-nav" [ngClass]="{'hero-nav': isHeroNav && !isScrolled, 'scrolled': isScrolled || !isHeroNav}" aria-label="Main navigation">
+    <div class="nav-inner">
+      <a routerLink="/" class="nav-logo" aria-label="Motorcycle Ohio home">
+        <span class="logo-main">MOTO OHIO</span>
+        <span class="logo-sub">Ohio Rider Training</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a></li>
+        <li><a routerLink="/courses" routerLinkActive="active">Courses</a></li>
+        <li><a routerLink="/become-instructor" routerLinkActive="active">Become an Instructor</a></li>
+        <li><a routerLink="/resources" routerLinkActive="active">Resources</a></li>
+        <li><a routerLink="/about" routerLinkActive="active">About</a></li>
+        <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
+        <li><a routerLink="/instructor-login" routerLinkActive="active" style="color:var(--clr-gold);">🔐 Instructor Login</a></li>
+      </ul>
+      <a routerLink="/courses" class="btn btn-primary nav-cta">Enroll Now</a>
+      <button class="nav-toggle" [attr.aria-expanded]="isMenuOpen" aria-controls="nav-drawer" aria-label="Open menu" (click)="toggleMenu()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile Drawer -->
+  <nav class="nav-drawer" [ngClass]="{'open': isMenuOpen}" aria-label="Mobile navigation">
+    <div class="nav-drawer-inner">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}" (click)="closeMenu()">Home</a>
+      <a routerLink="/courses" routerLinkActive="active" (click)="closeMenu()">Courses</a>
+      <a routerLink="/become-instructor" routerLinkActive="active" (click)="closeMenu()">Become an Instructor</a>
+      <a routerLink="/resources" routerLinkActive="active" (click)="closeMenu()">Resources</a>
+      <a routerLink="/about" routerLinkActive="active" (click)="closeMenu()">About</a>
+      <a routerLink="/contact" routerLinkActive="active" (click)="closeMenu()">Contact</a>
+      <a routerLink="/instructor-login" routerLinkActive="active" style="color:var(--clr-gold);font-weight:700;" (click)="closeMenu()">🔐 Instructor Login</a>
+      <a routerLink="/courses" class="btn btn-primary" style="text-align:center;" (click)="closeMenu()">Enroll Now</a>
+    </div>
+  </nav>

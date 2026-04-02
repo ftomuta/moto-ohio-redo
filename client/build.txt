@@ -1,0 +1,145 @@
+[33m???[39m Building...
+[32m???[39m Building...
+[1mInitial chunk files[22m  [2m | [22m[1mNames[22m                         [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mchunk-QWPGKBVZ.js[39m    [2m | [22m[2m-[22m                             [2m | [22m[36m243.67 kB[39m[2m | [22m               [36m65.35 kB[39m
+[32mpolyfills-FFHMD2TL.js[39m[2m | [22m[2mpolyfills[22m                     [2m | [22m [36m34.52 kB[39m[2m | [22m               [36m11.28 kB[39m
+[32mstyles-2K7SEXIW.css[39m  [2m | [22m[2mstyles[22m                        [2m | [22m [36m31.34 kB[39m[2m | [22m                [36m4.55 kB[39m
+[32mmain-QXD3E7MM.js[39m     [2m | [22m[2mmain[22m                          [2m | [22m  [36m7.52 kB[39m[2m | [22m                [36m2.10 kB[39m
+
+[1m [22m                    [2m | [22m[1mInitial total[22m                 [2m | [22m[1m317.05 kB[22m[2m | [22m               [1m83.28 kB[22m
+
+[1mLazy chunk files[22m     [2m | [22m[1mNames[22m                         [2m | [22m [1mRaw size[22m[2m | [22m[1mEstimated transfer size[22m
+[32mchunk-FPO2D3ZS.js[39m    [2m | [22m[2minstructor-dashboard-component[22m[2m | [22m [36m38.09 kB[39m[2m | [22m                [36m7.94 kB[39m
+[32mchunk-XZSJUEU2.js[39m    [2m | [22m[2m-[22m                             [2m | [22m [36m37.02 kB[39m[2m | [22m                [36m7.64 kB[39m
+[32mchunk-PUVV7VMU.js[39m    [2m | [22m[2mbecome-instructor-component[22m   [2m | [22m  [36m9.33 kB[39m[2m | [22m                [36m2.83 kB[39m
+[32mchunk-2PKJKD4S.js[39m    [2m | [22m[2mresources-component[22m           [2m | [22m  [36m8.11 kB[39m[2m | [22m                [36m2.35 kB[39m
+[32mchunk-XSXZW6AG.js[39m    [2m | [22m[2mcontact-component[22m             [2m | [22m  [36m7.74 kB[39m[2m | [22m                [36m2.62 kB[39m
+[32mchunk-JBFVPKUF.js[39m    [2m | [22m[2mhome-component[22m                [2m | [22m  [36m6.98 kB[39m[2m | [22m                [36m2.50 kB[39m
+[32mchunk-6YAVTESK.js[39m    [2m | [22m[2minstructor-login-component[22m    [2m | [22m  [36m6.91 kB[39m[2m | [22m                [36m2.31 kB[39m
+[32mchunk-4EVPPI6Z.js[39m    [2m | [22m[2mabout-component[22m               [2m | [22m  [36m6.50 kB[39m[2m | [22m                [36m2.15 kB[39m
+[32mchunk-DRU5AOTP.js[39m    [2m | [22m[2mcourses-component[22m             [2m | [22m  [36m4.80 kB[39m[2m | [22m                [36m1.70 kB[39m
+[32mchunk-VRI65IFX.js[39m    [2m | [22m[2m-[22m                             [2m | [22m[36m454 bytes[39m[2m | [22m              [36m454 bytes[39m
+
+Application bundle generation failed. [1.815 seconds]
+
+npx : [1m[33m[33m??? [4
+3;33m[[43;30mWARNING[43;3
+3m][0m [1mUnrecognized 
+target environment 
+"ES2024"[0m 
+[1m[35m[plugin 
+angular-compiler][0m 
+[tsconfig.json]
+At line:1 char:1
++ npx ng build 2>&1 | 
+Out-File -Encoding ASCII 
+build.txt; type build.tx 
+...
++ ~~~~~~~~~~~~~~~~~
+    + CategoryInfo         
+     : NotSpecified: ([1  
+  m[33m[33m?...[tsconf   
+ ig.json]:String) [], R    
+emoteException
+    + FullyQualifiedErrorI 
+   d : NativeCommandError
+ 
+
+    ../jsconfig.json:5:18:
+[37m      5 ???         
+"target": 
+[32m"ES2024"[37m,
+        ???                
+   [32m~~~~~~~~[0m
+
+
+[33m??? [43;33m[[43;30mW
+ARNING[43;33m][0m 
+[1mUnrecognized target 
+environment "ES2024"[0m 
+[1m[35m[plugin 
+angular-compiler][0m 
+[tsconfig.json]
+
+    ../jsconfig.json:5:18:
+[37m      5 ???         
+"target": 
+[32m"ES2024"[37m,
+        ???                
+   [32m~~~~~~~~[0m
+
+
+[33m??? [43;33m[[43;30mW
+ARNING[43;33m][0m 
+[1mUnrecognized target 
+environment "ES2024"[0m 
+[tsconfig.json]
+
+    ../jsconfig.json:5:18:
+[37m      5 ???         
+"target": 
+[32m"ES2024"[37m,
+        ???                
+   [32m~~~~~~~~[0m
+
+
+[33m??? [43;33m[[43;30mW
+ARNING[43;33m][0m 
+[1mUnrecognized target 
+environment "ES2024"[0m 
+[1m[35m[plugin 
+angular-css-resource][0m 
+[tsconfig.json]
+
+    ../jsconfig.json:5:18:
+[37m      5 ???         
+"target": 
+[32m"ES2024"[37m,
+        ???                
+   [32m~~~~~~~~[0m
+
+  The plugin 
+"angular-css-resource" was 
+triggered by this import
+
+    src/styles.css:487:26:
+[37m      487 ???     
+background-image: url([32m
+'assets/hero.png'[37m);
+          ???              
+             
+[32m~~~~~~~~~~~~~~~~~[0m
+
+
+[33m??? [43;33m[[43;30mW
+ARNING[43;33m][0m [1msrc
+/app/pages/instructor-login
+/instructor-login.component
+.css exceeded maximum 
+budget. Budget 2.05 kB was 
+not met by 775 bytes with 
+a total of 2.82 kB.[0m
+
+
+[33m??? [43;33m[[43;30mW
+ARNING[43;33m][0m [1msrc
+/app/pages/instructor-dashb
+oard/instructor-dashboard.c
+omponent.css exceeded 
+maximum budget. Budget 
+2.05 kB was not met by 
+9.42 kB with a total of 
+11.47 kB.[0m
+
+[39m[22m
+[1m[31m[31mX [41;31m[[
+41;97mERROR[41;31m][0m [
+1msrc/app/pages/instructor-
+dashboard/instructor-dashbo
+ard.component.css exceeded 
+maximum budget. Budget 
+4.10 kB was not met by 
+7.37 kB with a total of 
+11.47 kB.[0m
+
+[39m[22m

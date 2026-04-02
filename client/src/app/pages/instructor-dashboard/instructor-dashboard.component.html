@@ -1,0 +1,405 @@
+    <!-- DASHBOARD NAV -->
+    <nav class="dash-nav" aria-label="Instructor portal navigation">
+        <div class="dash-nav-inner">
+            <a routerLink="/" class="dash-logo" aria-label="Motorcycle Ohio home">
+                <span class="logo-main">MOTO OHIO</span>
+                <span class="logo-sub">Ohio Rider Training</span>
+            </a>
+            <div class="dash-divider" aria-hidden="true"></div>
+            <span class="dash-portal-label">Instructor Portal</span>
+            <nav class="dash-nav-links" aria-label="Dashboard sections">
+                <button [class.active]="activePanel === 'overview'" (click)="switchPanel('overview')">Overview</button>
+                <button [class.active]="activePanel === 'schedule'" (click)="switchPanel('schedule')">Schedule</button>
+                <button [class.active]="activePanel === 'students'" (click)="switchPanel('students')">Students</button>
+                <button [class.active]="activePanel === 'certifications'" (click)="switchPanel('certifications')">Certifications</button>
+                <button [class.active]="activePanel === 'documents'" (click)="switchPanel('documents')">Documents</button>
+                <button [class.active]="activePanel === 'university'" (click)="switchPanel('university')">MO University</button>
+            </nav>
+            <div class="dash-spacer"></div>
+            <div class="dash-user" *ngIf="userData">
+                <div class="dash-user-avatar" aria-hidden="true">{{ initials }}</div>
+                <span class="dash-user-name">{{ userData.name }}</span>
+                <button class="dash-logout" (click)="logout()">Sign Out</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dash-body">
+        <!-- SIDEBAR -->
+        <aside class="dash-sidebar" aria-label="Sidebar navigation">
+            <div class="sidebar-label">Main</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link" [class.active]="activePanel === 'overview'" (click)="switchPanel('overview')"><span class="icon">🏠</span> Overview</button>
+                <button class="sidebar-link" [class.active]="activePanel === 'schedule'" (click)="switchPanel('schedule')"><span class="icon">📅</span> Class Schedule <span class="badge">3</span></button>
+                <button class="sidebar-link" [class.active]="activePanel === 'students'" (click)="switchPanel('students')"><span class="icon">👥</span> My Students</button>
+            </div>
+            <div class="sidebar-label">Credentials</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link" [class.active]="activePanel === 'certifications'" (click)="switchPanel('certifications')"><span class="icon">🏆</span> Certifications</button>
+                <button class="sidebar-link" [class.active]="activePanel === 'documents'" (click)="switchPanel('documents')"><span class="icon">📄</span> Documents</button>
+            </div>
+            <div class="sidebar-label">Training</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link" [class.active]="activePanel === 'university'" (click)="switchPanel('university')"><span class="icon">🎓</span> MO University <span class="badge" style="background:var(--clr-gold);color:var(--clr-navy);">2</span></button>
+            </div>
+            <div class="sidebar-label" style="margin-top:1rem;">Account</div>
+            <div class="sidebar-section">
+                <button class="sidebar-link" (click)="showAlert('Profile settings coming soon!')"><span class="icon">⚙️</span> Settings</button>
+                <button class="sidebar-link" (click)="logout()"><span class="icon">🚪</span> Sign Out</button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="dash-main">
+
+            <!-- OVERVIEW PANEL -->
+            <div class="dash-panel" [class.active]="activePanel === 'overview'">
+                <div class="welcome-banner">
+                    <div>
+                        <h2>Good afternoon, <span>{{ firstName }}</span>! 👋</h2>
+                        <p>Here's a summary of your upcoming schedule and activity.</p>
+                    </div>
+                    <div class="welcome-date">{{ todayStr }}</div>
+                </div>
+
+                <!-- Stat cards -->
+                <div class="dash-stats">
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(230,57,70,.1);" aria-hidden="true">📅</div>
+                        <div class="label">Upcoming Classes</div>
+                        <div class="value">3</div>
+                        <div class="sub">Next: Apr 12 — BRC Columbus</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(13,27,42,.08);" aria-hidden="true">👥</div>
+                        <div class="label">Active Students</div>
+                        <div class="value">34</div>
+                        <div class="sub">Across 3 upcoming sessions</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(244,162,97,.15);" aria-hidden="true">🏆</div>
+                        <div class="label">Certifications</div>
+                        <div class="value">4</div>
+                        <div class="sub">BRC · ARC · 3-Wheel · Mentor</div>
+                    </div>
+                    <div class="dash-stat">
+                        <div class="icon-bg" style="background:rgba(45,106,79,.12);" aria-hidden="true">🎓</div>
+                        <div class="label">MO University</div>
+                        <div class="value">2</div>
+                        <div class="sub">Modules due this quarter</div>
+                    </div>
+                </div>
+
+                <!-- Upcoming schedule preview -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Upcoming Classes</h3>
+                        <button (click)="switchPanel('schedule')">View all →</button>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <table class="sched-table" aria-label="Upcoming classes">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Date</th>
+                                    <th>Location</th>
+                                    <th>Enrolled</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="cursor:pointer;" (click)="viewClassStudents('brc-col')">
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>Apr 12–13, 2025</td>
+                                    <td>Columbus State CC</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:80%"></div>
+                                            </div><span style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">12 / 15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                </tr>
+                                <tr style="cursor:pointer;" (click)="viewClassStudents('arc-kir')">
+                                    <td><span class="course-code">ARC</span></td>
+                                    <td>Apr 19, 2025</td>
+                                    <td>Lakeland CC — Kirtland</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:60%"></div>
+                                            </div><span style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">9 / 15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                </tr>
+                                <tr style="cursor:pointer;" (click)="viewClassStudents('brc-day')">
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>May 3–4, 2025</td>
+                                    <td>WSU Nutter Center — Dayton</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track">
+                                                <div class="bar-fill" style="width:33%"></div>
+                                            </div><span style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">5 / 15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-few">Filling Up</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Quick links -->
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Quick Actions</h3>
+                    </div>
+                    <div class="dash-card-body" style="display:flex;gap:1rem;flex-wrap:wrap;">
+                        <button class="btn btn-dark" style="flex:1;min-width:160px;justify-content:center;" (click)="switchPanel('university')">🎓 Start MO University Module</button>
+                        <button class="btn btn-outline" style="flex:1;min-width:160px;justify-content:center;border-color:var(--clr-navy);color:var(--clr-navy);" (click)="switchPanel('documents')">📄 Upload a Document</button>
+                        <button class="btn btn-outline" style="flex:1;min-width:160px;justify-content:center;border-color:var(--clr-navy);color:var(--clr-navy);" (click)="switchPanel('students')">👥 View Student Roster</button>
+                        <a routerLink="/resources" class="btn btn-outline" style="flex:1;min-width:160px;justify-content:center;border-color:var(--clr-navy);color:var(--clr-navy);">📋 Instructor Resources</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHEDULE PANEL -->
+            <div class="dash-panel" [class.active]="activePanel === 'schedule'">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">Class Schedule</h2>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Your Assigned Sessions — Spring 2025</h3>
+                        <a routerLink="/contact">Request a change</a>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <table class="sched-table" aria-label="Full class schedule">
+                            <thead>
+                                <tr>
+                                    <th>Course</th>
+                                    <th>Dates</th>
+                                    <th>Location</th>
+                                    <th>City</th>
+                                    <th>Enrolled / Cap</th>
+                                    <th>Status</th>
+                                    <th>Roster</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr style="cursor:pointer;" (click)="viewClassStudents('brc-col')">
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>Apr 12–13</td>
+                                    <td>Columbus State CC</td>
+                                    <td>Columbus</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div><span style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">12 / 15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;" (click)="viewClassStudents('brc-col', $event)">👥 View Roster</button></td>
+                                </tr>
+                                <tr style="cursor:pointer;" (click)="viewClassStudents('arc-kir')">
+                                    <td><span class="course-code">ARC</span></td>
+                                    <td>Apr 19</td>
+                                    <td>Lakeland CC</td>
+                                    <td>Kirtland</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track"><div class="bar-fill" style="width:60%"></div></div><span style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">9 / 15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-open">Confirmed</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;" (click)="viewClassStudents('arc-kir', $event)">👥 View Roster</button></td>
+                                </tr>
+                                <tr style="cursor:pointer;" (click)="viewClassStudents('brc-day')">
+                                    <td><span class="course-code">BRC</span></td>
+                                    <td>May 3–4</td>
+                                    <td>WSU Nutter Center</td>
+                                    <td>Dayton</td>
+                                    <td>
+                                        <div class="enrolled-bar">
+                                            <div class="bar-track"><div class="bar-fill" style="width:33%"></div></div><span style="font-size:.78rem;color:var(--clr-muted);white-space:nowrap;">5 / 15</span>
+                                        </div>
+                                    </td>
+                                    <td><span class="badge-few">Filling Up</span></td>
+                                    <td><button class="btn btn-dark" style="font-size:.75rem;padding:.3rem .75rem;" (click)="viewClassStudents('brc-day', $event)">👥 View Roster</button></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- STUDENTS PANEL -->
+            <div class="dash-panel" [class.active]="activePanel === 'students'">
+                <div class="stu-filter-bar">
+                    <span class="class-label">{{ activeClassLabel }}</span>
+                    <select id="stu-class-filter" [ngModel]="activeClassFilter" (change)="onClassFilterChange($event)" aria-label="Filter by class">
+                        <option value="all">All Classes</option>
+                        <option value="brc-col">Apr 12–13 BRC — Columbus</option>
+                        <option value="arc-kir">Apr 19 ARC — Kirtland</option>
+                        <option value="brc-day">May 3–4 BRC — Dayton</option>
+                    </select>
+                    <button class="btn btn-dark" style="font-size:.8rem;" (click)="showAlert('Export coming in live version.')">⬇ Export CSV</button>
+                </div>
+
+                <div id="stu-roster">
+                    <div *ngIf="displayedStudents.length === 0" style="text-align:center;color:var(--clr-muted);padding:2rem;">
+                        No students found for this class.
+                    </div>
+
+                    @for (s of displayedStudents; track s.id) {
+                    <div class="stu-accordion">
+                        <div class="stu-accordion-hdr" [class.open]="expandedStudentId === s.id" (click)="toggleStudent(s.id)">
+                            <div class="student-avatar" style="background:var(--clr-navy-lite)">{{ getAvatarInitials(s.name) }}</div>
+                            <div>
+                                <div class="stu-hdr-name">{{ s.name }}</div>
+                                <div class="stu-hdr-meta">Age: {{ s.age }} · {{ s.gender }}</div>
+                            </div>
+                            <div class="stu-hdr-badges">
+                                <span *ngIf="s.waiver" class="badge-open">Waiver OK</span>
+                                <span *ngIf="!s.waiver" class="badge-full">No Waiver</span>
+                                
+                                <span *ngIf="s.ridingExam === 'pass'" class="badge-open">Passed</span>
+                                <span *ngIf="s.ridingExam === 'fail'" class="badge-full">Failed</span>
+                                <span *ngIf="s.ridingExam === 'pending'" class="badge-few">Incomplete</span>
+                            </div>
+                            <div class="stu-chevron">▼</div>
+                        </div>
+                        <div class="stu-accordion-body" [class.open]="expandedStudentId === s.id">
+                            <div class="stu-section">
+                                <div class="stu-section-title">Personal & Licensing Information</div>
+                                <div class="stu-grid">
+                                    <div class="stu-field"><label>Age</label><input type="number" [(ngModel)]="s.age"></div>
+                                    <div class="stu-field">
+                                        <label>Gender</label>
+                                        <select [(ngModel)]="s.gender">
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+                                    <div class="stu-field">
+                                        <label>License Type</label>
+                                        <select [(ngModel)]="s.licenseType">
+                                            <option value="M-Endorsement">M-Endorsement</option>
+                                            <option value="Learner Permit">Learner Permit</option>
+                                            <option value="Driver License">Driver License</option>
+                                        </select>
+                                    </div>
+                                    <div class="stu-field"><label>License #</label><input type="text" [(ngModel)]="s.licenseNum"></div>
+                                    <div class="stu-field">
+                                        <label>Waiver Signed?</label>
+                                        <select [ngModel]="s.waiver ? 'true' : 'false'" (ngModelChange)="s.waiver = $event === 'true'">
+                                            <option value="true">Yes, Online</option>
+                                            <option value="false">No</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stu-section">
+                                <div class="stu-section-title">Course Evaluation (Score Sheet)</div>
+                                <div class="score-grid">
+                                    <div class="score-field"><label>Homework</label><input type="number" [(ngModel)]="s.homework" max="100"></div>
+                                    <div class="score-field"><label>Range Ex 1</label><input type="number" value="0"></div>
+                                    <div class="score-field"><label>Range Ex 2</label><input type="number" value="0"></div>
+                                </div>
+                                <div class="exam-row" style="margin-top:1.5rem;">
+                                    <span style="font-family:var(--ff-sub);font-weight:700;font-size:.8rem;color:var(--clr-muted);">RIDING EVALUATION :</span>
+                                    <div class="exam-radio">
+                                        <input type="radio" [name]="'exam-'+s.id" [id]="'pass-'+s.id" value="pass" [(ngModel)]="s.ridingExam" hidden>
+                                        <label [for]="'pass-'+s.id">PASS ✅</label>
+                                        <input type="radio" [name]="'exam-'+s.id" [id]="'fail-'+s.id" value="fail" [(ngModel)]="s.ridingExam" hidden>
+                                        <label [for]="'fail-'+s.id">FAIL ❌</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="stu-section">
+                                <div class="stu-section-title">Range Incidents</div>
+                                <div class="stu-field stu-field-wide">
+                                    <label>Incident Notes (If any)</label>
+                                    <textarea placeholder="Describe any drops or accidents..." [(ngModel)]="s.incident"></textarea>
+                                </div>
+                            </div>
+                            <div style="display:flex; justify-content:flex-end;">
+                                <button class="btn btn-primary save-btn" 
+                                    [disabled]="savingStudentId === s.id"
+                                    [style.background]="saveButtonSuccess && savingStudentId === s.id ? '#2d6a4f' : ''"
+                                    (click)="saveStudent(s)">
+                                    {{ savingStudentId === s.id ? saveButtonText : 'Save Record Update' }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- CERTIFICATIONS PANEL -->
+            <div class="dash-panel" [class.active]="activePanel === 'certifications'">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">My Certifications</h2>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>Active Certifications</h3><a routerLink="/contact">Request new cert</a>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                         <div class="doc-row">
+                            <div class="doc-icon">🏆</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Basic RiderCourse (BRC) — Instructor</div>
+                                <div class="doc-meta">Issued: Mar 15, 2022 · Expires: Mar 15, 2026 · ODPS Cert #OH-BRC-04821</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Active</span>
+                                <button class="btn btn-dark" (click)="showAlert('Certificate download available in live version.')">⬇ PDF</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOCUMENTS PANEL -->
+            <div class="dash-panel" [class.active]="activePanel === 'documents'">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:1.5rem;">Documents</h2>
+                <div class="dash-card">
+                    <div class="dash-card-header">
+                        <h3>My Uploaded Documents</h3>
+                        <button (click)="showAlert('File upload available in live version with backend integration.')">⬆ Upload New</button>
+                    </div>
+                    <div class="dash-card-body" style="padding:0 1.5rem;">
+                        <div class="doc-row">
+                            <div class="doc-icon">📄</div>
+                            <div class="doc-info">
+                                <div class="doc-name">Course Completion Roster — Apr 5-6, 2025 BRC</div>
+                                <div class="doc-meta">Uploaded: Apr 7, 2025 · PDF · 148 KB · Status: Received</div>
+                            </div>
+                            <div class="doc-actions">
+                                <span class="badge-open">Received</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- UNIVERSITY PANEL -->
+            <div class="dash-panel" [class.active]="activePanel === 'university'">
+                <h2 style="font-family:var(--ff-heading);font-size:2rem;color:var(--clr-navy);margin-bottom:.5rem;">Moto Ohio University</h2>
+                <p style="color:var(--clr-muted);margin-bottom:2rem;">Online training modules required for certification, recertification, and professional development.</p>
+
+                <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1rem;">
+                    <div class="dash-stat" style="border-left:3px solid var(--clr-red);">
+                        <div class="label">Modules Completed</div>
+                        <div class="value">11</div>
+                    </div>
+                    <div class="dash-stat" style="border-left:3px solid var(--clr-gold);">
+                        <div class="label">In Progress</div>
+                        <div class="value">1</div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
